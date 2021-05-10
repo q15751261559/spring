@@ -82,7 +82,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">管理员登录</label>
+                    <label class="layui-form-label">管理员录</label>
                     <div class="layui-input-block">
                         <input type="checkbox" lay-skin="switch" lay-filter="admin">
                     </div>
