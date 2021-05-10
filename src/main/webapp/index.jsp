@@ -65,7 +65,7 @@
 <div class="main">
     <div class="title">图书馆</div>
     <div class="login">
-        <form class="layui-form" action="doLogin.jsp?status=login" method="post">
+        <form class="layui-form" action="login" method="post">
             <div class="layui-form-item">
                 <label class="layui-form-label">账号</label>
                 <div class="layui-input-block">
@@ -81,6 +81,12 @@
                 </div>
             </div>
             <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">管理员登录</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" lay-skin="switch" lay-filter="admin">
+                    </div>
+                </div>
                 <div class="layui-input-block">
                     <button class="layui-btn">登录</button>
                     <button type="button" class="layui-btn layui-btn-primary" onclick="userRegister()">注册</button>
@@ -91,7 +97,7 @@
 </div>
 <div class="layui-row" id="userRegister" style="display:none;">
     <div class="layui-col-md11" id="register">
-        <form class="layui-form" action="doLogin.jsp?status=register" method="post">
+        <form class="layui-form" action="register" method="post">
             <div class="layui-form-item" >
                 <label class="layui-form-label">账号</label>
                 <div class="layui-input-inline">

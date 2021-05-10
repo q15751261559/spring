@@ -1,4 +1,4 @@
-<%--
+<%@ page import="cn.edu.niit.javabean.User" %><%--
   Created by IntelliJ IDEA.
   User: Hinoki
   Date: 2021/3/15
@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="./layui/css/layui.css">
 </head>
 <body class="layui-layout-body">
+<% User user=(User)request.getSession().getAttribute("user"); %>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">layui 后台布局</div>
@@ -36,7 +38,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
+                    <%=user.getReader()%>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>

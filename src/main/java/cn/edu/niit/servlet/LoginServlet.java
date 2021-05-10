@@ -1,5 +1,6 @@
 package cn.edu.niit.servlet;
 
+import cn.edu.niit.javabean.Login;
 import cn.edu.niit.service.LoginService;
 
 import javax.servlet.ServletException;
@@ -22,13 +23,13 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
-        String username=req.getParameter("username");
-        String password=req.getParameter("password");
-//        String result=loginService.login(username,password);
-//        if ("1".equals(result)){
-//            resp.sendRedirect("/main.jsp");
-//        }else {
-//
-//        }
+        Login login=new Login(req.getParameter("username"),req.getParameter("password"));
+        String result=loginService.login(login,req.getSession());
+        req.getSession().setAttribute("isLogin",true);
+        if (loginService.LOGIN_SUCCESS.equals(result)){
+            resp.sendRedirect("/main.jsp");
+        }else {
+            req.getRequestDispatcher("/index.jsp?message="+result).forward(req,resp);
+        }
     }
 }
