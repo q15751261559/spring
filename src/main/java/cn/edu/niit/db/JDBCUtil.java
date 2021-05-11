@@ -21,7 +21,7 @@ public class JDBCUtil {
   private static  String driver = "com.mysql.cj.jdbc.Driver";
   private static  String url = "jdbc:mysql://127.0.0.1:3306/library?serverTimezone=UTC&characterEncoding=UTF-8&useUnicode=true";
   private static  String username = "root";
-  private static  String password = "83228621";
+  private static  String password = "q83228621";
   private static JDBCUtil instance = null;
 
   private CallableStatement callableStatement = null;//创建CallableStatement对象
