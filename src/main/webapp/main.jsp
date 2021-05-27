@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<html style="height: 100%">
 
 <head>
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
     <title>layout 后台大布局 - Layui</title>
     <link rel="stylesheet" href="./layui/css/layui.css">
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body" style="height: 100%">
 <% User user=(User)request.getSession().getAttribute("user"); %>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
@@ -126,7 +126,7 @@
                 element.tabAdd("tabTemp", {
                     title: $(this).attr("title"),
                     content:
-                        "<iframe style='height: 100%;width: 100%' src='" +
+                        "<iframe style='height: 2000px;width: 100%' src='" +
                         content + "' class='frame' frameborder='0'></iframe>",
                     id: id
                 });

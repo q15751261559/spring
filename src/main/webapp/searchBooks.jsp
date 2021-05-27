@@ -7,7 +7,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<html>
+<html style="height: 100%">
 <head>
     <meta charset="utf-8">
     <title>Layui</title>
@@ -31,7 +31,7 @@
         }
     </style>
 </head>
-<body>
+<body style="height: 100%">
 
 <div class="layui-nav-item demoTable"
      style="display: flex;justify-content: flex-end;">
@@ -93,7 +93,7 @@
 <div id="page" style="display: flex;justify-content: center;">
 </div>
 
-<script src="./layui/layui.js" charset="utf-8"></script>
+<script src="../../layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
     layui.use(['laypage', 'layer', 'element'], function () {
