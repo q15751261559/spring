@@ -93,7 +93,7 @@
 <div id="page" style="display: flex;justify-content: center;">
 </div>
 
-<script src="../../layui/layui.js" charset="utf-8"></script>
+<script src="layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
 <script>
     layui.use(['laypage', 'layer', 'element'], function () {
@@ -108,7 +108,6 @@
                 //可以获取第一列的内容，也就是name的值
                 var name = $(this).parents("tr").find("td").eq(0).text();
                 //也可以获取属性中的值
-
                 layer.msg(name)
             })
 
@@ -153,6 +152,7 @@
             });
 
             $(document).ready(function () {
+                alert(111)
                 //进入页面先加载数据
                 getContent(1, limit);
                 //得到数量count后，渲染表格

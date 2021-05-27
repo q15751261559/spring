@@ -32,7 +32,7 @@
                     style="height: fit-content">
                     <dd><a href="javascript:;" name="borrow"
                            title="个人信息"
-                           content="./personalInfo.jsp" id="4">个人信息
+                           content="./personalInfo.jsp" id="0">个人信息
                     </a></dd>
                     <dd><a href="javascript:;" name="borrow"
                            title="系统设置"
@@ -67,7 +67,7 @@
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" name="borrow"
                                title="个人信息"
-                               content="./personalInfo.jsp" id="9">
+                               content="./personalInfo.jsp" id="4">
                             个人信息</a></dd>
                         <dd><a href="javascript:;" name="borrow"
                                title="图书收藏"

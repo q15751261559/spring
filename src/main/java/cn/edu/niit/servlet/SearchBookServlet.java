@@ -33,6 +33,7 @@ public class SearchBookServlet extends HttpServlet {
                 JSON.parseObject(paramJson,
                         HashMap.class);
         String param = (String) parseObject.get("search");
+        System.out.println(param);
         int pageNum = (int) parseObject.get("pageNum");
         int pageSize = (int) parseObject.get("pageSize");
         List<Book> books = new ArrayList<>();
