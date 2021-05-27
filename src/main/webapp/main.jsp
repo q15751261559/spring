@@ -28,7 +28,6 @@
                     <span
                             id="reader"><%=user.getReader()%></span>
                 </a>
-                </a>
                 <dl class="layui-nav-child"
                     style="height: fit-content">
                     <dd><a href="javascript:;" name="borrow"
