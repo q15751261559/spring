@@ -5,6 +5,10 @@ import java.util.Date;
 public class Message {
     private String reader;
 
+    public Message() {
+
+    }
+
     public String getReader() {
         return reader;
     }

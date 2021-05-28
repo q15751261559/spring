@@ -8,8 +8,7 @@ import java.util.List;
 public class BookService {
     private BookDao bookDao = new BookDao();
 
-    public List<Book> searchAllBooks(String username, int pageNum,
-                                     int pageSize) {
+    public List<Book> searchAllBooks(String username, int pageNum, int pageSize) {
 
         List<Book> books = bookDao.selectAll(pageNum, pageSize);
         for (Book book : books) {

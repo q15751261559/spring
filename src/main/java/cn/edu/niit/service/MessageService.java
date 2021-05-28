@@ -11,10 +11,11 @@ public class MessageService {
 
     public List<Message> searchAllMessage(int pageNum, int pageSize)
     {
-        List<Message> messages = messageDao.selectAll(pageNum, pageSize);
-        return messages;
+        return messageDao.selectAll(pageNum, pageSize);
     }
-
+    public int insertMessage(Message message){
+        return messageDao.insertMessage(message);
+    }
     public int countNum() {
         return messageDao.count();
     }

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(name = "MessageServlet",urlPatterns = "/message/search")
-public class MessageServlet extends HttpServlet {
+@WebServlet(name = "MessageSearchServlet",urlPatterns = "/message/search")
+public class MessageSearchServlet extends HttpServlet {
     private MessageService messageService=new MessageService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +25,6 @@ public class MessageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        System.out.println(888);
         String paramJson= IOUtils.toString(req.getInputStream(), "UTF-8");
         HashMap<String, Object> parseObject =
                 JSON.parseObject(paramJson,
@@ -35,7 +34,6 @@ public class MessageServlet extends HttpServlet {
         List<Message> messages=new ArrayList<>();
         int count=0;
         messages = messageService.searchAllMessage(pageNum, pageSize);
-        System.out.println(messages);
         count=messageService.countNum();
         req.getSession().setAttribute("messages",messages);
         resp.getWriter().println(count);

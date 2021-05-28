@@ -28,7 +28,6 @@ public class SearchBookServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String paramJson=IOUtils.toString(req.getInputStream(), "UTF-8");
-        System.out.println(111);
         HashMap<String, Object> parseObject =
                 JSON.parseObject(paramJson,
                         HashMap.class);

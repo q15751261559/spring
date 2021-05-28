@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MessageDao {
     public List<Message> selectAll(int pageNum,int pageSize){
-        String sql="SELECT reader,detail,public_date FROM message limit ?,?";
+        String sql="SELECT reader,detail,public_date FROM  message ORDER BY id DESC  limit ?,?";
         List<Message> messages=new ArrayList<>();
         try (ResultSet rs =
                      JDBCUtil.getInstance().executeQueryRS(sql,
@@ -43,5 +43,11 @@ public class MessageDao {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public int insertMessage(Message message)
+    {
+        String sql = "insert into message(reader,detail,public_date) values(?,?,NOW())";
+        return JDBCUtil.getInstance().executeUpdate(sql, new Object[]{message.getReader(), message.getDetail()});
     }
 }
