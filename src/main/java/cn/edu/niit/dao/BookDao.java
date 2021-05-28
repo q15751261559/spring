@@ -2,6 +2,7 @@ package cn.edu.niit.dao;
 
 import cn.edu.niit.db.JDBCUtil;
 import cn.edu.niit.javabean.Book;
+import cn.edu.niit.javabean.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public class BookDao {
-    public List<Book> selectAll(int pageNum, int pageSize) {
+    public List<Book> selectAll(int card_id,int pageNum, int pageSize) {
         String sql = "select books.*, book_sort.name as sort " +
                 "from books, book_sort where " +
                 "books.sort_id=book_sort.id limit ?,?";
@@ -22,7 +23,7 @@ public class BookDao {
                                      pageSize})) {
 
             while (rs.next()) {
-                Book book = new Book(rs.getInt("id") + "",
+                Book book = new Book(rs.getInt("id"),
                         rs.getString(
                                 "name"),
                         rs.getString("author"),
@@ -53,17 +54,22 @@ public class BookDao {
         return 0;
     }
 
-    public boolean selectStore(String username, String bookId) {
-        String sql1 = "select EXISTS( SELECT 1 from borrow_books " +
-                "where book_id=? and card_id=?) as store";
+    public boolean selectStore(int card_id, int bookId) {
+        int count=0;
+        String sql1 = "select count(*) as countNum FROM book_store where card_id=? and book_id=?";
         try (ResultSet rs =
                      JDBCUtil.getInstance().executeQueryRS(sql1,
                              new Object[]{
-                                     bookId, username
+                                     card_id, bookId
                              });) {
 
             while (rs.next()) {
-                return rs.getBoolean("store");
+                 count = rs.getInt("countNum");
+            }
+            if (count>0){
+                return true;
+            }else {
+                return false;
             }
 
         } catch (SQLException e) {
@@ -73,14 +79,50 @@ public class BookDao {
         return false;
     }
 
-    public int insertStoreBook(String username, String bookId) {
-        String sql = "insert into borrow_books(book_id, card_id, " +
-                "borrow_date) values(?,?,?)";
+//    public boolean selectStore(int card_id, int bookId) {
+//        String sql1 = "select EXISTS( SELECT 1 from borrow_books " +
+//                "where book_id=? and card_id=?) as store";
+//        try (ResultSet rs =
+//                     JDBCUtil.getInstance().executeQueryRS(sql1,
+//                             new Object[]{
+//                                     bookId, card_id
+//                             });) {
+//
+//            while (rs.next()) {
+//                return rs.getBoolean("store");
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
+
+//    public int insertStoreBook(String username, String bookId) {
+//        String sql = "insert into borrow_books(book_id, card_id, " +
+//                "borrow_date) values(?,?,?)";
+//        int result = JDBCUtil.getInstance().executeUpdate(sql,
+//                new Object[]{
+//                        bookId, username,
+//                        new Date(System.currentTimeMillis())
+//                });
+//        return result;
+//    }
+
+    public int insertStoreBook(int card_id, int bookId) {
+        String sql = "insert into book_store(card_id,book_id) values(?,?)";
         int result = JDBCUtil.getInstance().executeUpdate(sql,
                 new Object[]{
-                        bookId, username,
-                        new Date(System.currentTimeMillis())
-                });
+                        card_id, bookId});
+        return result;
+    }
+
+    public int deleteStoreBook(int card_id, int bookId) {
+        String sql = "DELETE FROM book_store WHERE card_id=? and book_id=?";
+        int result = JDBCUtil.getInstance().executeUpdate(sql,
+                new Object[]{
+                        card_id, bookId});
         return result;
     }
 }

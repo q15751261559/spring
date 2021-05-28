@@ -23,7 +23,7 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("utf-8");
         resp.setCharacterEncoding("utf-8");
-        User user = new User(req.getParameter("username"), req.getParameter("password"), req.getParameter("reader"));
+        User user = new User(Integer.parseInt(req.getParameter("card_id")),req.getParameter("username"), req.getParameter("password"), req.getParameter("reader"));
         String result = registerService.Register(user);
         req.getRequestDispatcher("/index.jsp?message="+result).forward(req,resp);
     }

@@ -2,6 +2,7 @@ package cn.edu.niit.servlet;
 
 
 import cn.edu.niit.javabean.Book;
+import cn.edu.niit.javabean.User;
 import cn.edu.niit.service.BookService;
 import org.apache.commons.io.IOUtils;
 import com.alibaba.fastjson.JSON;
@@ -43,7 +44,7 @@ public class SearchBookServlet extends HttpServlet {
         } else {
             //无参查询
             books =
-                    bookService.searchAllBooks((String) req.getSession().getAttribute("id"), pageNum,
+                    bookService.searchAllBooks(((User)req.getSession().getAttribute("user")).getCard_id(), pageNum,
                             pageSize);
         }
 

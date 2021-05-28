@@ -24,7 +24,7 @@ public class MessageInsertServlet extends HttpServlet {
           System.out.println(textarea);
         Message message=new Message();
         User user = (User) req.getSession().getAttribute("user");
-        message.setReader(user.getUsername());
+        message.setReader(user.getReader());
         message.setDetail(textarea);
         messageService.insertMessage(message);
     }

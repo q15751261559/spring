@@ -79,10 +79,11 @@
                     <button class="layui-btn layui-btn-xs borrow"
                             id="borrow" index="${status.index}">借阅
                     </button>
-                    <button class="layui-btn layui-btn-xs borrow"
-                            id="store" index="${book.id}">
-                            ${book.store?"已收藏":"收藏"}
-                    </button>
+<%--                    <button class="layui-btn layui-btn-xs borrow"--%>
+<%--                            id="store" index="${book.id}">--%>
+<%--                            ${book.store?"已收藏":"收藏"}--%>
+<%--                    </button>--%>
+                    <input type="button" class="layui-btn layui-btn-xs borrow" id="store" index="${book.id}" value="${book.store?"已收藏":"收藏"}">
                 </td>
             </tr>
         </c:forEach>
@@ -113,25 +114,20 @@
 
             $(document).on('click', '#store', function () {
                 //可以获取第一列的内容，也就是name的值
-                var name = $(this).parents("tr").find("td").eq(0).text();
-                var bookid = $(this).attr("index");
+                var button_store = $(this).val();
+                var _this=$(this)
+                var data = {'book_id':($(this).attr("index")),"button_store":button_store};
                 $.ajax({
                     type: 'POST',
                     url: "/book/store",
-                    data: JSON.stringify({
-                        user: ${sessionScope.id}+"",
-                        book: bookid
-                    }),
-                    contentType: "application/json;charset=utf-8",
+                    async: false, //开启同步请求，为了保证先得到count再渲染表格
+                    data:data,
                     success: function (data) {
-                        // $('#content').load(location.href + " #content");
-                        //count从Servlet中得到
-                        // count = data;
-                        layer.msg(data)
-                        if (data == '借阅成功') {
-                            $('#store').text("已收藏")
-                        }
-
+                        let rs=data.split(' ');
+                        let result=rs[0];
+                        let buttonVal=rs[1];
+                        _this.val(buttonVal);
+                        alert(result)
                     }
                 });
             })

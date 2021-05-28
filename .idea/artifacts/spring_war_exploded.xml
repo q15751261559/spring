@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="spring:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/spring_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="spring" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="NIITDevelop-1.1" />
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.76" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.20" />
+          <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
+          <element id="library" level="project" name="Maven: commons-io:commons-io:2.3" />
+          <element id="library" level="project" name="Maven: jstl:jstl:1.2" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="spring/web/Web" />
+    </root>
+  </artifact>
+</component>

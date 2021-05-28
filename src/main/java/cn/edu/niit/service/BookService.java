@@ -8,11 +8,13 @@ import java.util.List;
 public class BookService {
     private BookDao bookDao = new BookDao();
 
-    public List<Book> searchAllBooks(String username, int pageNum, int pageSize) {
+    public List<Book> searchAllBooks(int card_id, int pageNum, int pageSize) {
 
-        List<Book> books = bookDao.selectAll(pageNum, pageSize);
+        List<Book> books = bookDao.selectAll(card_id,pageNum, pageSize);
         for (Book book : books) {
-            book.setStore(isStore(username, book.getId()));
+            System.out.println(book.getId());
+            book.setStore(isStore(card_id, book.getId()));
+            System.out.println(book.isStore());
         }
         return books;
     }
@@ -21,16 +23,27 @@ public class BookService {
         return bookDao.count();
     }
 
-    public boolean isStore(String username, String bookId) {
-        return bookDao.selectStore(username, bookId);
+    public boolean isStore(int card_id, int bookId) {
+        return bookDao.selectStore(card_id, bookId);
     }
 
-    public String storeBook(String username, String bookId) {
-        int result = bookDao.insertStoreBook(username, bookId);
+    public String insertStoreBook(int card_id, int bookId) {
+        int result = bookDao.insertStoreBook(card_id, bookId);
+        System.out.println(result);
         if (result > 0) {
-            return "借阅成功";
+            return "收藏成功";
         } else {
             return "借阅失败";
+        }
+    }
+
+    public String deleteStoreBook(int card_id, int bookId) {
+        int result = bookDao.deleteStoreBook(card_id, bookId);
+        System.out.println(result);
+        if (result > 0) {
+            return "删除收藏成功";
+        } else {
+            return "删除失败";
         }
     }
 }

@@ -12,7 +12,7 @@ public class LoginDao {
         try (ResultSet rs= JDBCUtil.getInstance().executeQueryRS("select * from borrow_card where username=?",new Object[]{username})){
             while (rs.next())
             {
-                user=new User(rs.getString("username"),rs.getString("password"),rs.getString("reader"));
+                user=new User(rs.getInt("id"),rs.getString("username"),rs.getString("password"),rs.getString("reader"));
             }
         }
         catch (SQLException e){

@@ -1,18 +1,26 @@
 package cn.edu.niit.javabean;
 
 public class Book {
-    private String id;
+    private int id;
     private String name;
     private String author;
     private String sort;
     private String description;
     private boolean store;
 
-    public String getId() {
+    public Book(int id, String name, String author, String sort, String description) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.sort = sort;
+        this.description = description;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -56,12 +64,13 @@ public class Book {
         this.store = store;
     }
 
-    public Book(String id, String name, String author, String sort,
-                String description) {
+    public Book(int id, String name, String author, String sort,
+                String description,boolean store) {
         this.id = id;
         this.name = name;
         this.author = author;
         this.sort = sort;
         this.description = description;
+        this.store=store;
     }
 }

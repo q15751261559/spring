@@ -26,7 +26,7 @@
 <%--                    <img id="head" src="${sessionScope.user.header}"--%>
 <%--                         class="layui-nav-img">--%>
                     <span
-                            id="reader"><%=user.getReader()%></span>
+                            id="reader"><%=user.getReader()+" "+user.getCard_id()%></span>
                 </a>
                 <dl class="layui-nav-child"
                     style="height: fit-content">
