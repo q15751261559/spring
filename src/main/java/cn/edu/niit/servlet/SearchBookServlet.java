@@ -33,7 +33,6 @@ public class SearchBookServlet extends HttpServlet {
                 JSON.parseObject(paramJson,
                         HashMap.class);
         String param = (String) parseObject.get("search");
-        System.out.println(param);
         int pageNum = (int) parseObject.get("pageNum");
         int pageSize = (int) parseObject.get("pageSize");
         List<Book> books = new ArrayList<>();
@@ -41,14 +40,16 @@ public class SearchBookServlet extends HttpServlet {
         //2.
         if (param != null) {
             //带参数查询
+            books=bookService.searchBookFromName(((User)req.getSession().getAttribute("user")).getCard_id(),param.trim(),pageNum,pageSize);
+            count = bookService.countNumFromName(param.trim());
         } else {
             //无参查询
             books =
                     bookService.searchAllBooks(((User)req.getSession().getAttribute("user")).getCard_id(), pageNum,
                             pageSize);
+            count = bookService.countNum();
         }
 
-        count = bookService.countNum();
 
         //3. 将结果放入session
         req.getSession().setAttribute("books", books);

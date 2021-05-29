@@ -8,6 +8,17 @@ import java.util.List;
 public class BookService {
     private BookDao bookDao = new BookDao();
 
+    public List<Book> searchBookFromName(int card_id,String name, int pageNum, int pageSize) {
+
+        List<Book> books = bookDao.selectBookFromName(name,pageNum, pageSize);
+        for (Book book : books) {
+            System.out.println(book.getId());
+            book.setStore(isStore(card_id, book.getId()));
+            System.out.println(book.isStore());
+        }
+        return books;
+    }
+
     public List<Book> searchAllBooks(int card_id, int pageNum, int pageSize) {
 
         List<Book> books = bookDao.selectAll(card_id,pageNum, pageSize);
@@ -21,6 +32,9 @@ public class BookService {
 
     public int countNum() {
         return bookDao.count();
+    }
+    public int countNumFromName(String name){
+        return bookDao.countFromName(name);
     }
 
     public boolean isStore(int card_id, int bookId) {

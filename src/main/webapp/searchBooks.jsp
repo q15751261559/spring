@@ -41,6 +41,9 @@
     <button id="search" class="layui-btn" data-type="getCheckLength"
             style="margin-left: 20px;">搜索
     </button>
+    <button id="reset" class="layui-btn" data-type="getCheckLength"
+            style="margin-left: 20px;">重置
+    </button>
 </div>
 
 <div class="layui-form" id="content">
@@ -104,6 +107,7 @@
             var $ = layui.$;
             var count = 0, current = 1, limit = 5;
 
+
             //查看按钮的点击事件
             $(document).on('click', '#info', function () {
                 //可以获取第一列的内容，也就是name的值
@@ -144,13 +148,33 @@
 
             $('#search').click(function () {
                 var keyword = $('#keyword').val();
-                alert(keyword)
+                getContent(keyword,1, limit);
+                laypage.render({
+                    elem: 'page',
+                    count: count,
+                    curr: current,
+                    limits: [5, 10, 15, 20],
+                    limit: limit,
+                    layout: ['count', 'prev', 'page', 'next', 'limit'],
+                    jump: function (obj, first) {
+                        if (!first) {
+                            getContent(keyword,obj.curr, obj.limit);
+                            //更新当前页码和当前每页显示条数
+                            current = obj.curr;
+                            limit = obj.limit;
+                        }
+                    }
+                });
             });
 
+        $('#reset').click(function () {
+            location.reload();
+        });
+
             $(document).ready(function () {
-                alert(111)
+                let search=null;
                 //进入页面先加载数据
-                getContent(1, limit);
+                getContent(search,1, limit);
                 //得到数量count后，渲染表格
                 laypage.render({
                     elem: 'page',
@@ -161,7 +185,7 @@
                     layout: ['count', 'prev', 'page', 'next', 'limit'],
                     jump: function (obj, first) {
                         if (!first) {
-                            getContent(obj.curr, obj.limit);
+                            getContent(search,obj.curr, obj.limit);
                             //更新当前页码和当前每页显示条数
                             current = obj.curr;
                             limit = obj.limit;
@@ -170,12 +194,13 @@
                 });
             });
 
-            function getContent(page, size) {
+            function getContent(search,page, size) {
                 $.ajax({
                     type: 'POST',
                     url: "/book/search",
                     async: false, //开启同步请求，为了保证先得到count再渲染表格
                     data: JSON.stringify({
+                        search:search,
                         pageNum: page,
                         pageSize: size
                     }),
