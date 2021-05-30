@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>layout 后台大布局 - Layui</title>
+    <title>图书馆</title>
     <link rel="stylesheet" href="./layui/css/layui.css">
 </head>
 <body class="layui-layout-body" style="height: 100%">
@@ -26,7 +26,7 @@
 <%--                    <img id="head" src="${sessionScope.user.header}"--%>
 <%--                         class="layui-nav-img">--%>
                     <span
-                            id="reader"><%=user.getReader()+" "+user.getCard_id()%></span>
+                            id="reader"><%=user.getReader()%></span>
                 </a>
                 <dl class="layui-nav-child"
                     style="height: fit-content">

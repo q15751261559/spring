@@ -23,7 +23,15 @@ public class BookService {
         return bookDao.selectStoreFromId(card_id,pageNum, pageSize);
     }
 
+    public List<Book> searchBorrowFromId(int card_id,int pageNum, int pageSize) {
 
+        return bookDao.selectBorrowFromId(card_id,pageNum, pageSize);
+    }
+
+
+    public List<Book> selectBorrowHistory(int card_id, int pageNum, int pageSize) {
+        return bookDao.selectBorrowHistory(card_id,pageNum,pageSize);
+    }
 
     public List<Book> searchAllBooks(int card_id, int pageNum, int pageSize) {
 
@@ -35,6 +43,7 @@ public class BookService {
         return books;
     }
 
+    public int borrowHistoryCount(int card_id){return bookDao.borrowHistoryCount(card_id);}
     public int countNum() {
         return bookDao.count();
     }
@@ -43,6 +52,9 @@ public class BookService {
     }
     public int countStoreNumFromId(int card_id) {
         return bookDao.countFromStore(card_id);
+    }
+    public int borrowCountFromId(int card_id) {
+        return bookDao.borrowCountFromId(card_id);
     }
     public boolean isStore(int card_id, int bookId) {
         return bookDao.selectStore(card_id, bookId);
@@ -53,7 +65,6 @@ public class BookService {
 
     public String insertStoreBook(int card_id, int bookId) {
         int result = bookDao.insertStoreBook(card_id, bookId);
-        System.out.println(result);
         if (result > 0) {
             return "收藏成功";
         } else {
@@ -63,11 +74,28 @@ public class BookService {
 
     public String deleteStoreBook(int card_id, int bookId) {
         int result = bookDao.deleteStoreBook(card_id, bookId);
-        System.out.println(result);
         if (result > 0) {
             return "删除收藏成功";
         } else {
             return "删除失败";
+        }
+    }
+
+    public String insertBorrowBook(int card_id, int bookId) {
+        int result = bookDao.insertBorrowBook(card_id, bookId);
+        if (result > 0) {
+            return "借阅成功";
+        } else {
+            return "借阅失败";
+        }
+    }
+
+    public String returnBook(int card_id, int bookId) {
+        int result = bookDao.returnBook(card_id, bookId);
+        if (result > 0) {
+            return "归还成功";
+        } else {
+            return "归还失败";
         }
     }
 }

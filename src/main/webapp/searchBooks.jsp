@@ -83,7 +83,7 @@
 <%--                            id="borrow" index="${status.index}">借阅--%>
 <%--                    </button>--%>
                     <input type="button" class="layui-btn layui-btn-xs borrow" id="borrow"
-                           index="${status.index}" value="${book.borrow?"已借阅":"借阅"}">
+                           index="${book.id}" value="${book.borrow?"归还":"借阅"}">
 <%--                    <button class="layui-btn layui-btn-xs borrow"--%>
 <%--                            id="store" index="${book.id}">--%>
 <%--                            ${book.store?"已收藏":"收藏"}--%>
@@ -141,10 +141,22 @@
             //借阅按钮的点击事件
             $(document).on('click', '#borrow', function () {
                 //可以获取第一列的内容，也就是name的值
-                var name = $(this).parents("tr").find("td").eq(0).text();
-                //也可以获取属性中的值
-                console.log($(this).attr("index"))
-                layer.msg(name)
+                var button_borrow = $(this).val();
+                var _this=$(this)
+                var data = {'book_id':($(this).attr("index")),"button_borrow":button_borrow};
+                $.ajax({
+                    type: 'POST',
+                    url: "/book/borrow",
+                    async: false, //开启同步请求，为了保证先得到count再渲染表格
+                    data:data,
+                    success: function (data) {
+                        let rs=data.split(' ');
+                        let result=rs[0];
+                        let buttonVal=rs[1];
+                        _this.val(buttonVal);
+                        alert(result)
+                    }
+                });
             })
 
 

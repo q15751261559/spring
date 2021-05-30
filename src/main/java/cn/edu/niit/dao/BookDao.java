@@ -38,6 +38,55 @@ public class BookDao {
         return books;
     }
 
+    public List<Book> selectBorrowHistory(int card_id, int pageNum, int pageSize) {
+        String sql = "select books.* , book_sort.name as sort,borrow_books.borrow_date,borrow_books.return_date from book_sort,books INNER JOIN borrow_books ON books.id = borrow_books.book_id INNER JOIN borrow_card ON borrow_card.id = borrow_books.card_id where books.sort_id=book_sort.id and  borrow_books.card_id =? LIMIT ?,?";
+        List<Book> books = new ArrayList<>();
+        try (ResultSet rs =
+                     JDBCUtil.getInstance().executeQueryRS(sql,
+                             new Object[]{card_id,(pageNum - 1) * pageSize,
+                                     pageSize})) {
+
+            while (rs.next()) {
+                Book book = new Book(
+                        rs.getString("name"),
+                        rs.getString("author"),
+                        rs.getString("sort"),
+                        rs.getTimestamp("borrow_date"),
+                        rs.getTimestamp("return_date")
+                );
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+    public List<Book> selectBorrowFromId(int card_id,int pageNum, int pageSize) {
+        String sql = "select books.* , book_sort.name as sort from book_sort,books INNER JOIN borrow_books ON books.id = borrow_books.book_id INNER JOIN borrow_card ON borrow_card.id = borrow_books.card_id where books.sort_id=book_sort.id and  borrow_books.card_id =? and borrow_books.return_date IS NULL LIMIT ?,?";
+
+        List<Book> books = new ArrayList<>();
+        try (ResultSet rs = JDBCUtil.getInstance().executeQueryRS(sql,
+                             new Object[]{card_id,(pageNum - 1) * pageSize,
+                                     pageSize})) {
+
+            while (rs.next()) {
+                Book book = new Book(rs.getInt("id"),
+                        rs.getString(
+                                "name"),
+                        rs.getString("author"),
+                        rs.getString("sort"),
+                        rs.getString("description"));
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
     public List<Book> selectStoreFromId(int card_id,int pageNum, int pageSize) {
         String sql = "select books.* , book_sort.name as sort from book_sort,books INNER JOIN book_store ON books.id = book_store.book_id INNER JOIN borrow_card ON borrow_card.id = book_store.card_id where books.sort_id=book_sort.id and  book_store.card_id = ? LIMIT ?,?";
 
@@ -92,6 +141,38 @@ public class BookDao {
         try (ResultSet rs =
                      JDBCUtil.getInstance().executeQueryRS(sql,
                              new Object[]{})) {
+
+            while (rs.next()) {
+                int count = rs.getInt("countNum");
+                return count;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int borrowHistoryCount(int card_id) {
+        String sql = "select count(*) as countNum from book_sort,books INNER JOIN borrow_books ON books.id = borrow_books.book_id INNER JOIN borrow_card ON borrow_card.id = borrow_books.card_id where books.sort_id=book_sort.id and borrow_books.card_id =?";
+        try (ResultSet rs =
+                     JDBCUtil.getInstance().executeQueryRS(sql,
+                             new Object[]{card_id})) {
+
+            while (rs.next()) {
+                int count = rs.getInt("countNum");
+                return count;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int borrowCountFromId(int card_id) {
+        String sql = "select count(*) as countNum from book_sort,books INNER JOIN borrow_books ON books.id = borrow_books.book_id INNER JOIN borrow_card ON borrow_card.id = borrow_books.card_id where books.sort_id=book_sort.id and  borrow_books.card_id =? and borrow_books.return_date IS NULL";
+        try (ResultSet rs =
+                     JDBCUtil.getInstance().executeQueryRS(sql,
+                             new Object[]{card_id})) {
 
             while (rs.next()) {
                 int count = rs.getInt("countNum");
@@ -163,7 +244,7 @@ public class BookDao {
 
     public boolean selectBorrow(int card_id, int bookId) {
         String sql1 = "select EXISTS( SELECT 1 from borrow_books " +
-                "where book_id=? and card_id=?) as store";
+                "where book_id=? and card_id=? and return_date IS NULL) as store";
         try (ResultSet rs =
                      JDBCUtil.getInstance().executeQueryRS(sql1,
                              new Object[]{
@@ -181,16 +262,18 @@ public class BookDao {
         return false;
     }
 
-    public int insertBorrowBook(String username, String bookId) {
-        String sql = "insert into borrow_books(book_id, card_id, " +
-                "borrow_date) values(?,?,?)";
-        int result = JDBCUtil.getInstance().executeUpdate(sql,
-                new Object[]{
-                        bookId, username,
-                        new Date(System.currentTimeMillis())
-                });
-        return result;
+    public int insertBorrowBook(int card_id, int book_id) {
+        String sql = "INSERT into borrow_books(card_id,book_id,borrow_date) VALUES(?,?,now())";
+        return JDBCUtil.getInstance().executeUpdate(sql,
+                new Object[]{card_id,book_id});
     }
+
+    public int returnBook(int card_id, int book_id) {
+        String sql = "UPDATE borrow_books SET return_date = now() WHERE card_id=? and book_id=? and return_date IS NULL";
+        return JDBCUtil.getInstance().executeUpdate(sql,
+                new Object[]{card_id,book_id});
+    }
+
 
     public int insertStoreBook(int card_id, int bookId) {
         String sql = "insert into book_store(card_id,book_id) values(?,?)";
