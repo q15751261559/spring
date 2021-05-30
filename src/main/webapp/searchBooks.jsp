@@ -53,7 +53,7 @@
             <col width="150">
             <col width="200">
             <col>
-            <col width="180">
+            <col width="220">
         </colgroup>
         <thead>
         <tr>
@@ -79,9 +79,11 @@
                             class="layui-btn layui-btn-primary layui-btn-xs detail"
                             id="info" index="${status.index}">查看
                     </button>
-                    <button class="layui-btn layui-btn-xs borrow"
-                            id="borrow" index="${status.index}">借阅
-                    </button>
+<%--                    <button class="layui-btn layui-btn-xs borrow"--%>
+<%--                            id="borrow" index="${status.index}">借阅--%>
+<%--                    </button>--%>
+                    <input type="button" class="layui-btn layui-btn-xs borrow" id="borrow"
+                           index="${status.index}" value="${book.borrow?"已借阅":"借阅"}">
 <%--                    <button class="layui-btn layui-btn-xs borrow"--%>
 <%--                            id="store" index="${book.id}">--%>
 <%--                            ${book.store?"已收藏":"收藏"}--%>
@@ -212,8 +214,7 @@
                     }
                 });
             }
-        }
-    );
+        });
 </script>
 </body>
 </html>

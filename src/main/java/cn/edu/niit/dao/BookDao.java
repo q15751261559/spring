@@ -38,6 +38,31 @@ public class BookDao {
         return books;
     }
 
+    public List<Book> selectStoreFromId(int card_id,int pageNum, int pageSize) {
+        String sql = "select books.* , book_sort.name as sort from book_sort,books INNER JOIN book_store ON books.id = book_store.book_id INNER JOIN borrow_card ON borrow_card.id = book_store.card_id where books.sort_id=book_sort.id and  book_store.card_id = ? LIMIT ?,?";
+
+        List<Book> books = new ArrayList<>();
+        try (ResultSet rs =
+                     JDBCUtil.getInstance().executeQueryRS(sql,
+                             new Object[]{card_id,(pageNum - 1) * pageSize,
+                                     pageSize})) {
+
+            while (rs.next()) {
+                Book book = new Book(rs.getInt("id"),
+                        rs.getString(
+                                "name"),
+                        rs.getString("author"),
+                        rs.getString("sort"),
+                        rs.getString("description"));
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return books;
+    }
+
     public List<Book> selectBookFromName(String name,int pageNum, int pageSize) {
         String sql = "select books.*, book_sort.name as sort from books, book_sort where books.sort_id=book_sort.id  and (books.name like ? or books.author like ? or book_sort.name like ? or books.description like ?)  limit ?,?";
         name="%"+name+"%";
@@ -84,6 +109,22 @@ public class BookDao {
         try (ResultSet rs =
                      JDBCUtil.getInstance().executeQueryRS(sql,
                              new Object[]{name,name,name,name})) {
+
+            while (rs.next()) {
+                int count = rs.getInt("countNum");
+                return count;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int countFromStore(int card_id) {
+        String sql = "select count(*) as countNum from book_sort,books INNER JOIN book_store ON books.id = book_store.book_id INNER JOIN borrow_card ON borrow_card.id = book_store.card_id where books.sort_id=book_sort.id and  book_store.card_id = ?";
+        try (ResultSet rs =
+                     JDBCUtil.getInstance().executeQueryRS(sql,
+                             new Object[]{card_id})) {
 
             while (rs.next()) {
                 int count = rs.getInt("countNum");

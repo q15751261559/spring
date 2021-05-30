@@ -26,7 +26,6 @@ public class StoreBooksServlet extends HttpServlet {
         int book_id=Integer.parseInt(req.getParameter("book_id"));
         String buttonVal="已收藏";
         String button_store=req.getParameter("button_store").trim();
-        System.out.println(button_store);
         if (button_store.equals(buttonVal)){
             result=bookService.deleteStoreBook(((User)req.getSession().getAttribute("user")).getCard_id(),book_id);
             buttonVal="收藏";

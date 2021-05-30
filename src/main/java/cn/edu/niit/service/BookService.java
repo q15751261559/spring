@@ -12,20 +12,25 @@ public class BookService {
 
         List<Book> books = bookDao.selectBookFromName(name,pageNum, pageSize);
         for (Book book : books) {
-            System.out.println(book.getId());
             book.setStore(isStore(card_id, book.getId()));
-            System.out.println(book.isStore());
+            book.setBorrow(isBorrow(card_id, book.getId()));
         }
         return books;
     }
+
+    public List<Book> searchStoreFromId(int card_id,int pageNum, int pageSize) {
+
+        return bookDao.selectStoreFromId(card_id,pageNum, pageSize);
+    }
+
+
 
     public List<Book> searchAllBooks(int card_id, int pageNum, int pageSize) {
 
         List<Book> books = bookDao.selectAll(card_id,pageNum, pageSize);
         for (Book book : books) {
-            System.out.println(book.getId());
             book.setStore(isStore(card_id, book.getId()));
-            System.out.println(book.isStore());
+            book.setBorrow(isBorrow(card_id, book.getId()));
         }
         return books;
     }
@@ -36,9 +41,14 @@ public class BookService {
     public int countNumFromName(String name){
         return bookDao.countFromName(name);
     }
-
+    public int countStoreNumFromId(int card_id) {
+        return bookDao.countFromStore(card_id);
+    }
     public boolean isStore(int card_id, int bookId) {
         return bookDao.selectStore(card_id, bookId);
+    }
+    public boolean isBorrow(int card_id, int bookId) {
+        return bookDao.selectBorrow(card_id, bookId);
     }
 
     public String insertStoreBook(int card_id, int bookId) {

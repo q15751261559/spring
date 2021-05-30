@@ -7,6 +7,15 @@ public class Book {
     private String sort;
     private String description;
     private boolean store;
+    private boolean borrow;
+
+    public boolean isBorrow() {
+        return borrow;
+    }
+
+    public void setBorrow(boolean borrow) {
+        this.borrow = borrow;
+    }
 
     public Book(int id, String name, String author, String sort, String description) {
         this.id = id;
